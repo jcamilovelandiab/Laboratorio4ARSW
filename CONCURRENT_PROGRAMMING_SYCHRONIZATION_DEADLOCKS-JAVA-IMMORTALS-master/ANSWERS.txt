@@ -1,0 +1,30 @@
+Part I:
+
+Threads control using wait/notify. Producer/Consumer
+Execute and check how the program works, Execute jVisualVM and inspect the CPU use of the corresponding process.
+1.	What is the reason of this CPU consumption?
+		Los procesos y subprocesos que están ejecutandóse son lo
+		que produce el consumo de la CPU.
+	What is the class responsable of that consumption?
+		La clase StartProduction porque es el subproceso principal, las clases Producer y 
+		consumer porque son subprocesos que son ejecutados por StartProduction.
+
+2. Write some code in order to solve the CPU's use problems , having in mind  that for
+now the production is slow and the consumption is fast, check that the CPU consumption has decreased.
+
+	Durmiendo al consumidor podemos bajar el consumo de la CPU, ya que éste deja
+	de preguntar constantemente si hay algún elemento en la cola, del 12% de consumo
+	de la CPU, pasa a un 0.7%.
+
+3. Make a producer that produces as fast as it can, and the consumer consumes slow, keeping in mind
+that the producer knows a Stock limit (how many elements have to have at most in the queue) your code
+has to respect that limit.Check the Collection API used as queue in order to validate that the limit
+not be exceeded.Verify that when you set a small limit in the stock, there is not a high CPU
+consumption or errors. So that, altogether we are exploring the total of servers.
+
+
+
+
+	
+
+
