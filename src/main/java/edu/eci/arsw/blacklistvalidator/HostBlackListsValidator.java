@@ -43,18 +43,18 @@ public class HostBlackListsValidator{
 		LifeCycleThread threads[] = new LifeCycleThread[NThreads];
 		int servers = skds.getRegisteredServersCount();
 		int val = -1;
+		AtomicInteger atomicInt = new AtomicInteger();
 		for (int i = 0; i < NThreads; i++) {
 			if (i == NThreads - 1)
 				val = 0;
-			//System.err.println((int) (i * servers / NThreads) + " " + (int) ((i + 1) * servers / NThreads + val));
-			threads[i] = new LifeCycleThread((int) (i * servers / NThreads), (int) ((i + 1) * servers / NThreads + val), ipaddress);
+				System.err.println((int) (i * servers / NThreads) + " " + (int) ((i + 1) * servers / NThreads + val));
+				threads[i] = new LifeCycleThread((int) (i * servers / NThreads), (int) ((i + 1) * servers / NThreads + val), ipaddress, atomicInt );
 		}
 
 		for (LifeCycleThread lifeCycleThread : threads) {
 			try {
 				lifeCycleThread.join();
 			} catch (InterruptedException e) {
-	//			System.err.println("Error al join lifeCycleThread");
 			}
 		}
 
@@ -67,6 +67,11 @@ public class HostBlackListsValidator{
 			} else {
 				skds.reportAsTrustworthy(ipaddress);
 			}
+		}
+		
+		for (LifeCycleThread lifeCycleThread : threads) {
+			
+			checkedListsCount+=lifeCycleThread.getcheckedListsCount();
 		}
 		
 		LOG.log(Level.INFO, "Checked Black Lists:{0} of {1}",

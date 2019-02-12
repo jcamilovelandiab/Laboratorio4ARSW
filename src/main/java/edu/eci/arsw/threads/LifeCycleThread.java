@@ -10,57 +10,48 @@ import java.util.logging.Logger;
 import edu.eci.arsw.blacklistvalidator.HostBlackListsValidator;
 import edu.eci.arsw.spamkeywordsdatasource.HostBlacklistsDataSourceFacade;
 
-public class LifeCycleThread extends Thread{
+public class LifeCycleThread extends Thread {
 
-	private int inf, sup, nServers , ocurrencesCount = 0;
+	private int inf, sup, checkedListsCount;
 	private String ipaddress;
 	private List<Integer> idServer;
-	public static Object monitor = HostBlackListsValidator.monitor;
 	public static int cantidadFound = 0;
-	
-	public LifeCycleThread(int inf , int sup, String ipaddress) {
-//		super("my extending thread Life Cycle");
-		this.inf = inf  ; this.sup = sup; 
+	public AtomicInteger atomicInt;
+
+	public LifeCycleThread(int inf, int sup, String ipaddress, AtomicInteger atomicInt) {
+		this.inf = inf;
+		this.sup = sup;
 		this.ipaddress = ipaddress;
-		nServers=0;
+		this.atomicInt = atomicInt;
+		checkedListsCount = 0;
 		idServer = new ArrayList<Integer>();
-		ocurrencesCount = 0;
-//		System.out.println("my thread created" + this);
 		start();
 	}
 
 	public int getNServers() {
-		return nServers;
+		return idServer.size();
 	}
-	
-	public List<Integer> getIdServer(){
+
+	public List<Integer> getIdServer() {
 		return idServer;
 	}
-	
+
+	public int getcheckedListsCount() {
+		return checkedListsCount;
+	}
+
 	@Override
 	public void run() {
-
-		
 		HostBlacklistsDataSourceFacade skds = HostBlacklistsDataSourceFacade.getInstance();
-		int checkedListsCount = 0;
 		for (int i = inf; i <= sup; i++) {
 			checkedListsCount++;
 			if (skds.isInBlackListServer(i, ipaddress)) {
+				atomicInt.getAndIncrement();
 				idServer.add(i);
-				/*
-				synchronized (monitor) {
-					if(cantidadFound < HostBlackListsValidator.BLACK_LIST_ALARM_COUNT) {
-						cantidadFound++;
-						System.out.println("E " + Thread.activeCount());
-					}else {
-						//System.out.println("El hilo paro");
-						this.stop();
-					}
-				}*/
+			} 
+			if(atomicInt.get() == HostBlackListsValidator.BLACK_LIST_ALARM_COUNT){				
+					break;
 			}
 		}
-		
-		nServers = ocurrencesCount;
 	}
-	
 }
