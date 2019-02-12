@@ -94,11 +94,9 @@ public class ControlFrame extends JFrame {
                 int sum = 0;
                 for (Immortal im : immortals) {
                     sum += im.getHealth();
+                    im.pauseImmortal();
                 }
-
                 statisticsLabel.setText("<html>"+immortals.toString()+"<br>Health sum:"+ sum);
-                
-                
 
             }
         });
@@ -111,7 +109,9 @@ public class ControlFrame extends JFrame {
                 /**
                  * IMPLEMENTAR
                  */
-
+            	for(Immortal im: immortals) {
+            		im.resumeImmortal();
+            	}
             }
         });
 
@@ -148,7 +148,7 @@ public class ControlFrame extends JFrame {
         
         try {
             int ni = Integer.parseInt(numOfImmortals.getText());
-
+            
             List<Immortal> il = new LinkedList<Immortal>();
 
             for (int i = 0; i < ni; i++) {
