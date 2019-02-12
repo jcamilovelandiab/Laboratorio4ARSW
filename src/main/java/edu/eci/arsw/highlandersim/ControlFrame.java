@@ -35,6 +35,8 @@ public class ControlFrame extends JFrame {
     private JLabel statisticsLabel;
     private JScrollPane scrollPane;
     private JTextField numOfImmortals;
+    
+    public static Object monitor = new Object();
  
     /**
      * Launch the application.
@@ -93,11 +95,11 @@ public class ControlFrame extends JFrame {
                  */
                 int sum = 0;
                 for (Immortal im : immortals) {
-                    sum += im.getHealth();
+                	sum += im.getHealth();
                     im.pauseImmortal();
+                    
                 }
                 statisticsLabel.setText("<html>"+immortals.toString()+"<br>Health sum:"+ sum);
-
             }
         });
         toolBar.add(btnPauseAndCheck);
@@ -109,9 +111,9 @@ public class ControlFrame extends JFrame {
                 /**
                  * IMPLEMENTAR
                  */
-            	for(Immortal im: immortals) {
-            		im.resumeImmortal();
-            	}
+            	synchronized (monitor) {
+            		monitor.notifyAll();
+				}
             }
         });
 
@@ -121,11 +123,20 @@ public class ControlFrame extends JFrame {
         toolBar.add(lblNumOfImmortals);
 
         numOfImmortals = new JTextField();
-        numOfImmortals.setText("3");
+        numOfImmortals.setText("1000");
         toolBar.add(numOfImmortals);
         numOfImmortals.setColumns(10);
 
         JButton btnStop = new JButton("STOP");
+        
+        btnStop.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		for(Immortal im: immortals) {
+        			im.die();
+        		}
+        	}
+        });
+        
         btnStop.setForeground(Color.RED);
         toolBar.add(btnStop);
 
