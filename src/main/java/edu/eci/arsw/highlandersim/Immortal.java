@@ -84,7 +84,15 @@ public class Immortal extends Thread {
     	}
     }
     
-    
+    synchronized public void transferLife(Immortal i2){
+		if (i2.getHealth() > 0) {
+            i2.changeHealth(i2.getHealth() - defaultDamageValue);
+            this.health += defaultDamageValue;
+            updateCallback.processReport("Fight: " + this + " vs " + i2+"\n");
+        } else {
+            updateCallback.processReport(this + " says:" + i2 + " is already dead!\n");
+        }
+	}
     
     public void fight(Immortal i2) {
     	
@@ -92,36 +100,24 @@ public class Immortal extends Thread {
     	
     	int thisHash = System.identityHashCode(this);
     	int i2Hash = System.identityHashCode(i2);
-
-    	class Helper {
-    		public void transferLife(Immortal i2){
-    			if (i2.getHealth() > 0) {
-    	            i2.changeHealth(i2.getHealth() - defaultDamageValue);
-    	            health += defaultDamageValue;
-    	            updateCallback.processReport("Fight: " + this + " vs " + i2+"\n");
-    	        } else {
-    	            updateCallback.processReport(this + " says:" + i2 + " is already dead!\n");
-    	        }
-    		}
-    	}
     	
     	if (thisHash < i2Hash) {
     		synchronized (this) {
     			synchronized (i2) {
-    				new Helper().transferLife(i2);
+    				this.transferLife(i2);
     			}
     		}
     	} else if (thisHash > i2Hash) {
     		synchronized (i2) {
     			synchronized (this) {
-    				new Helper().transferLife(i2);
+    				this.transferLife(i2);
     			}
     		}
     	} else {
     		synchronized (tieLock) {
     			synchronized (this) {
     				synchronized (i2) {
-    					new Helper().transferLife(i2);
+    					this.transferLife(i2);
     				}
     			}
     		}
