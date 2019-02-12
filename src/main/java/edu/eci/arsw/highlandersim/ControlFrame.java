@@ -123,7 +123,7 @@ public class ControlFrame extends JFrame {
         toolBar.add(lblNumOfImmortals);
 
         numOfImmortals = new JTextField();
-        numOfImmortals.setText("1000");
+        numOfImmortals.setText("800");
         toolBar.add(numOfImmortals);
         numOfImmortals.setColumns(10);
 

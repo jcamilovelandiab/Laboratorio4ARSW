@@ -60,7 +60,7 @@ public class Immortal extends Thread {
 					}
             	}
             	
-                Thread.sleep(3);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -84,12 +84,13 @@ public class Immortal extends Thread {
     	}
     }
     
-    synchronized public void transferLife(Immortal i2){
+    public void transferLife(Immortal i2){
 		if (i2.getHealth() > 0) {
             i2.changeHealth(i2.getHealth() - defaultDamageValue);
             this.health += defaultDamageValue;
             updateCallback.processReport("Fight: " + this + " vs " + i2+"\n");
         } else {
+        	die();
             updateCallback.processReport(this + " says:" + i2 + " is already dead!\n");
         }
 	}
@@ -125,11 +126,11 @@ public class Immortal extends Thread {
     }
 
     public void changeHealth(int v) {
-    	health = v; 
+    	health = v;
     }
 
     public int getHealth() {
-        return health;
+    	return health;
     }
 
     @Override
