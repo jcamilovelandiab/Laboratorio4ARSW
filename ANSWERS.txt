@@ -22,9 +22,43 @@ has to respect that limit.Check the Collection API used as queue in order to val
 not be exceeded.Verify that when you set a small limit in the stock, there is not a high CPU
 consumption or errors. So that, altogether we are exploring the total of servers.
 
+PART II. 2
+
+2. Check the code and identify how the indicated funcionality was implemented.
+Given the purpose of the game, an invariant should be that the sum of the life
+points of all the players always be the same.(Of course, in a moment of time
+when an operation of increase / reduction of time is not in process). For that
+case, for N players, what should be that value?
+
+En éste caso hay 3 inmortales, y cada uno de ellos tiene 100 puntos de vida,
+la suma de toda la vida de todos debería estar en 300.
+
+3. Run the application and verify how the "pause and check" option works,
+is the invariant satisfied?
+
+El invariante no se satisface ya que los puntos de vida van variando
+constantemente, y el valor de la suma no es 300.
+
+
+5.Verify again the functionality clicking many times. Is the invariant satisfied?
+
+El invariante no se cumple, los suma total de puntos de los inmortales
+no siempre es 300.
+
+
+10.
+
+Analizing how the simulation works. this could create a race condition?
+Implement the functionality , run the simulation and observe what problem
+is presented when there are many inmortals.
+
+No hay ninguna condición de carrera ya que cuando muere el inmortal (los puntos
+de vida son <= 0 ), no comparte ninguna información con algún otro hilo,
+cuándo muere simplemente terminamos el hilo, y cada hilo sabe cómo terminarse sólo.
 
 
 
-	
+
+
 
 
