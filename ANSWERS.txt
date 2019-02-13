@@ -3,7 +3,7 @@ Part I:
 Threads control using wait/notify. Producer/Consumer
 Execute and check how the program works, Execute jVisualVM and inspect the CPU use of the corresponding process.
 1.	What is the reason of this CPU consumption?
-		Los procesos y subprocesos que est谩n ejecutand贸se son lo
+		Los procesos y subprocesos que estan ejecutandose son lo
 		que produce el consumo de la CPU.
 	What is the class responsable of that consumption?
 		La clase StartProduction porque es el subproceso principal, las clases Producer y 
@@ -12,15 +12,10 @@ Execute and check how the program works, Execute jVisualVM and inspect the CPU u
 2. Write some code in order to solve the CPU's use problems , having in mind  that for
 now the production is slow and the consumption is fast, check that the CPU consumption has decreased.
 
-	Durmiendo al consumidor podemos bajar el consumo de la CPU, ya que 茅ste deja
-	de preguntar constantemente si hay alg煤n elemento en la cola, del 12% de consumo
+	Durmiendo al consumidor podemos bajar el consumo de la CPU, ya que este deja
+	de preguntar constantemente si hay algun elemento en la cola, del 12% de consumo
 	de la CPU, pasa a un 0.7%.
 
-3. Make a producer that produces as fast as it can, and the consumer consumes slow, keeping in mind
-that the producer knows a Stock limit (how many elements have to have at most in the queue) your code
-has to respect that limit.Check the Collection API used as queue in order to validate that the limit
-not be exceeded.Verify that when you set a small limit in the stock, there is not a high CPU
-consumption or errors. So that, altogether we are exploring the total of servers.
 
 PART II. 2
 
@@ -30,14 +25,16 @@ points of all the players always be the same.(Of course, in a moment of time
 when an operation of increase / reduction of time is not in process). For that
 case, for N players, what should be that value?
 
-En 閟te caso hay 3 inmortales, y cada uno de ellos tiene 100 puntos de vida,
-la suma de toda la vida de todos deber韆 estar en 300.
+En 茅ste caso hay 3 inmortales, y cada uno de ellos tiene 100 puntos de vida,
+la suma de toda la vida de todos deber铆a estar en 300.
+
+La suma deberia dar siempre N*100.
 
 3. Run the application and verify how the "pause and check" option works,
 is the invariant satisfied?
 
 El invariante no se satisface ya que los puntos de vida van variando
-constantemente, y el valor de la suma no es 300.
+constantemente, y el valor de la suma no es 300(N*100).
 
 
 5.Verify again the functionality clicking many times. Is the invariant satisfied?
@@ -52,9 +49,9 @@ Analizing how the simulation works. this could create a race condition?
 Implement the functionality , run the simulation and observe what problem
 is presented when there are many inmortals.
 
-No hay ninguna condici髇 de carrera ya que cuando muere el inmortal (los puntos
-de vida son <= 0 ), no comparte ninguna informaci髇 con alg鷑 otro hilo,
-cu醤do muere simplemente terminamos el hilo, y cada hilo sabe c髆o terminarse s髄o.
+No hay ninguna condici贸n de carrera ya que cuando muere el inmortal (los puntos
+de vida son <= 0 ), no comparte ninguna informaci贸n con algun otro hilo,
+cu谩ndo muere simplemente terminamos el hilo, y cada hilo sabe c贸mo terminarse solo.
 
 
 
